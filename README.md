@@ -1,1 +1,3 @@
 # MMDemo
+
+基于Motion Symphony插件进行MotionMatching的二次开发，本项目为纯学术研究保证不进行任何商业活动。
