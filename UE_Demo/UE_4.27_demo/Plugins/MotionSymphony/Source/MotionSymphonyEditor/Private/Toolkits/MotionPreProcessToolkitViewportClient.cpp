@@ -153,6 +153,24 @@ void FMotionPreProcessToolkitViewportClient::DrawCanvas(FViewport& InViewport, F
 		TextItem.Draw(&Canvas);
 		YPos += 36.0f;
 	}
+	/*---------------------------xc-----------------------------*/
+	// show trajectory info
+	const TArray<FTrajectoryPoint> currentTrajectory = Pose.Trajectory;
+	for (FTrajectoryPoint trajectoryPoint : currentTrajectory) {
+		FText TrajectoryText = FText::Format(
+			LOCTEXT(
+				"TrajectoryText",
+				"Position.X: {0} \nPosition.Y: {1} \n"
+			),
+			trajectoryPoint.Position.X,
+			trajectoryPoint.Position.Y
+		);
+		FCanvasTextItem TrajectoryTextItem(FVector2D(6.0f, YPos), TrajectoryText, GEngine->GetSmallFont(), FLinearColor::White);
+		TrajectoryTextItem.EnableShadow(FLinearColor::Black);
+		TrajectoryTextItem.Draw(&Canvas);
+		YPos += 36.0f;
+	}
+	/*---------------------------xc-----------------------------*/
 }
 
 void FMotionPreProcessToolkitViewportClient::Tick(float DeltaSeconds)
@@ -356,9 +374,11 @@ void FMotionPreProcessToolkitViewportClient::DrawCurrentPose(FPrimitiveDrawInter
 	if (pose.Trajectory.Num() > 0)
 	{
 		FVector lastPointPos = previewTransform.TransformPosition(pose.Trajectory[0].Position);
-		for (FTrajectoryPoint& point : pose.Trajectory)
+		for (int i=0;i<pose.Trajectory.Num();i++)
 		{
+			FTrajectoryPoint& point = pose.Trajectory[i];
 			FVector pointPos = previewTransform.TransformPosition(point.Position);
+			FVector ArrowStart = pointPos + FVector(0, 0, 30.0f);
 
 			DrawDebugSphere(World, pointPos, 5.0f, 8, FColor::Red, true, -1, 0);
 
@@ -368,7 +388,16 @@ void FMotionPreProcessToolkitViewportClient::DrawCurrentPose(FPrimitiveDrawInter
 			FQuat rotation = FQuat(FVector::UpVector, FMath::DegreesToRadians(point.RotationZ + 90.0f));
 			FVector arrowVector = previewTransform.TransformVector(rotation * (FVector::ForwardVector * 50.0f));
 
-			DrawDebugDirectionalArrow(World, pointPos, pointPos + arrowVector, 20.0f, FColor::Red, true, -1, 0, 1.5f);
+			if (i == pose.Trajectory.Num()-1) {
+				DrawDebugDirectionalArrow(World, ArrowStart, ArrowStart + arrowVector, 20.0f, FColor::Purple, true, -1, 0, 3.0f);
+				DrawInterface->DrawLine(pointPos, ArrowStart, FColor::Purple,
+					ESceneDepthPriorityGroup::SDPG_Foreground, 3.0f);
+			}
+			else {
+				DrawDebugDirectionalArrow(World, ArrowStart, ArrowStart + arrowVector, 20.0f, FColor::Red, true, -1, 0, 1.5f);
+				DrawInterface->DrawLine(pointPos, ArrowStart, FLinearColor::Red,
+					ESceneDepthPriorityGroup::SDPG_Foreground, 3.0f);
+			}
 
 			lastPointPos = pointPos;
 		}
