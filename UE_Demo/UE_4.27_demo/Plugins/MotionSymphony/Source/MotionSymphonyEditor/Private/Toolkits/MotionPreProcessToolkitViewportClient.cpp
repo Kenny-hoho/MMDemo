@@ -155,8 +155,8 @@ void FMotionPreProcessToolkitViewportClient::DrawCanvas(FViewport& InViewport, F
 	}
 	/*---------------------------xc-----------------------------*/
 	// show trajectory info
-	const TArray<FTrajectoryPoint> currentTrajectory = Pose.Trajectory;
-	for (FTrajectoryPoint trajectoryPoint : currentTrajectory) {
+	const TArray<FTrajectoryPoint>& currentTrajectory = Pose.Trajectory;
+	for (const FTrajectoryPoint& trajectoryPoint : currentTrajectory) {
 		FText TrajectoryText = FText::Format(
 			LOCTEXT(
 				"TrajectoryText",
