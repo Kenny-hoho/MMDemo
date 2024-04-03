@@ -14,7 +14,10 @@ class MOTIONSYMPHONY_API UTag_BakeTrajectory : public UTagSection
 {
 	GENERATED_BODY()
 
-private:
+public:
 	virtual void PreProcessPose(FPoseMotionData& OutPose, FMotionAnimAsset& OutMotionAnim, UMotionDataAsset* OutMotionData, const float StartTime, const float EndTime) override;
 	void SaveTrajectory(FPoseMotionData& OutPose, TSharedRef<TJsonWriter<>> JsonWriter);
+	void printLog() {
+		UE_LOG(LogTemp, Warning, TEXT("Hello Bake"));
+	};
 };

@@ -11,6 +11,8 @@ void UTag_BakeTrajectory::PreProcessPose(FPoseMotionData& OutPose, FMotionAnimAs
 
 void UTag_BakeTrajectory::SaveTrajectory(FPoseMotionData& OutPose, TSharedRef<TJsonWriter<>> JsonWriter)
 {
+	JsonWriter->WriteObjectStart();
+	JsonWriter->WriteValue(TEXT("PoseID"), OutPose.PoseId);
 	JsonWriter->WriteArrayStart(TEXT("TrajectoryPoints"));
 	const TArray<FTrajectoryPoint>& currentTrajectory = OutPose.Trajectory;
 	for (const FTrajectoryPoint& point : currentTrajectory) {
@@ -29,4 +31,5 @@ void UTag_BakeTrajectory::SaveTrajectory(FPoseMotionData& OutPose, TSharedRef<TJ
 		JsonWriter->WriteObjectEnd();
 	}
 	JsonWriter->WriteArrayEnd();
+	JsonWriter->WriteObjectEnd();
 }

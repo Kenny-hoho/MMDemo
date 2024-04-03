@@ -10,6 +10,7 @@
 #include "Animation/BlendSpace.h"
 #include "Tags/TagSection.h"
 #include "Tags/TagPoint.h"
+#include "Tags/Tag_BakeTrajectory.h"
 #include "MotionSymphonySettings.h"
 #include "MotionMatchingUtil/MMBlueprintFunctionLibrary.h"
 
@@ -1310,6 +1311,28 @@ void UMotionDataAsset::PreProcessAnim(const int32 SourceAnimIndex, const bool bM
 
 			TagStartTime = NotifyEvent.GetTriggerTime();
 			float TagEndTime = TagStartTime + NotifyEvent.GetDuration();
+
+			// Get Trajectorys to json
+			UTag_BakeTrajectory* TagBakeTraj = Cast<UTag_BakeTrajectory>(TagSection);
+			if (TagBakeTraj) {
+				FString JsonStr = "";
+				FString FilePath = FPaths::ProjectPluginsDir() + TEXT("JsonData/AnimationTrajectory.json");
+				TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&JsonStr);
+				JsonWriter->WriteObjectStart();
+				JsonWriter->WriteValue(TEXT("PoseCount"), TagEndPoseId - TagStartPoseId);
+				JsonWriter->WriteValue(TEXT("StartPoseId"), TagStartPoseId);
+				JsonWriter->WriteValue(TEXT("EndPoseId"), TagEndPoseId);
+				JsonWriter->WriteArrayStart(TEXT("Trajectory"));
+				for (int32 PoseIndex = TagStartPoseId; PoseIndex < TagEndPoseId; ++PoseIndex)
+				{
+					TagBakeTraj->SaveTrajectory(Poses[PoseIndex], JsonWriter);
+				}
+				JsonWriter->WriteArrayEnd();
+				JsonWriter->WriteObjectEnd();
+				JsonWriter->Close();
+				FFileHelper::SaveStringToFile(JsonStr, *FilePath);
+				continue;
+			}
 
 			//Apply the tags pre-processing to all poses in this range
 			for (int32 PoseIndex = TagStartPoseId; PoseIndex < TagEndPoseId; ++PoseIndex)
