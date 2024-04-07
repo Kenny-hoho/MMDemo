@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-
+import json
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def distance(t1, t2):
-    return np.sqrt((t1-t2)**2)
+    return np.sqrt((t1 - t2) ** 2)
 
 
 def euclid_dist(t1, t2):
@@ -75,10 +76,68 @@ def fundamental_test():
     plt.show()
 
 
+def get_trajectory_from_json(filename, out_array):
+    with open(filename, 'r') as f:
+        json_dict = json.load(f)
+        for traj in json_dict['Trajectory']:
+            trajectoryPoints = []
+            for point in traj['TrajectoryPoints']:
+                trajectoryPoints.append(point['Position']['X'])
+            out_array.append(trajectoryPoints)
+    return json_dict
+
+
+def trajectory_test():
+    # --------------------------------strafe turn--------------------------------
+    strafeTurn_jsonFileName = '../UE_Demo/UE_4.27_demo/Plugins/JsonData/StrafeTurn_AnimTraj.json'
+    strafeTurnTraj = []
+    strafeTurn_animTraj = get_trajectory_from_json(strafeTurn_jsonFileName, strafeTurnTraj)
+    print(strafeTurn_animTraj)
+
+    plt.figure('Strafe Turn')
+    column = int(strafeTurn_animTraj['PoseCount'])
+    row = math.ceil(column/4)
+    trajSampleTime = [-0.66, -0.33, 0.33, 0.66, 1.0]
+
+    for i in range(1, column):
+        plt.subplot(row, 4, i)
+        plt.plot(trajSampleTime, strafeTurnTraj[i], marker='o')
+        plt.axis([-1.0, 1.5, -500, 500])
+    # --------------------------------strafe stop--------------------------------
+    strafeStop_jsonFileName = '../UE_Demo/UE_4.27_demo/Plugins/JsonData/StrafeStop_AnimTraj.json'
+    strafeStopTraj = []
+    strafeStop_animTraj = get_trajectory_from_json(strafeStop_jsonFileName, strafeStopTraj)
+    print(strafeStop_animTraj)
+
+    plt.figure('Strafe Stop')
+    column = int(strafeStop_animTraj['PoseCount'])
+    row = math.ceil(column/4)
+    trajSampleTime = [-0.66, -0.33, 0.33, 0.66, 1.0]
+
+    for i in range(1, column):
+        plt.subplot(row, 4, i)
+        plt.plot(trajSampleTime, strafeStopTraj[i], marker='o')
+        plt.axis([-1.0, 1.5, -500, 500])
+    # --------------------------------strafe predict--------------------------------
+    predict_jsonFileName = '../UE_Demo/UE_4.27_demo/Plugins/JsonData/PredictTrajectory.json'
+    predictTraj = []
+    predict_animTraj = get_trajectory_from_json(predict_jsonFileName, predictTraj)
+    print(predict_animTraj)
+
+    plt.figure('Strafe Predict')
+    column = int(predict_animTraj['PoseCount'])
+    print(column)
+    row = math.ceil(column/4)
+    trajSampleTime = [-0.66, -0.33, 0.33, 0.66, 1.0]
+
+    for i in range(1, column):
+        plt.subplot(row, 4, i)
+        plt.plot(trajSampleTime, predictTraj[i], marker='o')
+        plt.axis([-1.0, 1.5, -500, 500])
+
+    plt.show()
+
+
 if __name__ == '__main__':
-    fundamental_test()
-
-
-
-
-
+    # fundamental_test()
+    trajectory_test()

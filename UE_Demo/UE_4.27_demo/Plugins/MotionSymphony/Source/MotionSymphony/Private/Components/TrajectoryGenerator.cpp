@@ -8,14 +8,19 @@
 #define EPSILON 0.0001f
 
 UTrajectoryGenerator::UTrajectoryGenerator()
-	: MaxSpeed(400.0f), 
-	  MoveResponse(15.0f), 
-	  TurnResponse(15.0f), 
-	  StrafeDirection(FVector(0.0f)),
-	  bResetDirectionOnIdle(true),
-	  LastDesiredOrientation(0.0f),
-	  MoveResponse_Remapped(15.0f),
-	  TurnResponse_Remapped(15.0f)
+	: MaxSpeed(400.0f),
+	MoveResponse(15.0f),
+	TurnResponse(15.0f),
+	StrafeDirection(FVector(0.0f)),
+	bResetDirectionOnIdle(true),
+	LastDesiredOrientation(0.0f),
+	MoveResponse_Remapped(15.0f),
+	TurnResponse_Remapped(15.0f),
+	TotalRecordTime(5.0f),
+	RecordNum(20),
+	TimeSinceLastPredictRecord(0.0f),
+	TimeSinceFirstRecord(0.0f),
+	bShouldRecord(false)
 {
 }
 
@@ -78,6 +83,60 @@ void UTrajectoryGenerator::UpdatePrediction(float DeltaTime)
 	for (int32 i = 0; i < Iterations; ++i)
 	{
 		TrajPositions[i] = NewTrajPosition[i];
+	}
+
+
+	// Recording Predict Trajectory
+	if (bShouldRecord) {
+		TimeSinceLastPredictRecord += DeltaTime;
+		TimeSinceFirstRecord += DeltaTime;
+
+		float recordInterval = TotalRecordTime / RecordNum;
+
+		if (TimeSinceLastPredictRecord > recordInterval) {
+			// Add current Trajectory
+			RecordedTrajectories.Add(GetCurrentTrajectory());
+			TimeSinceLastPredictRecord = 0.0f;
+		}
+		if (TimeSinceFirstRecord > TotalRecordTime) {
+			// Save to Json
+			FString JsonStr = "";
+			FString FilePath = FPaths::ProjectPluginsDir() + TEXT("JsonData/PredictTrajectory.json");
+			TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&JsonStr);
+			JsonWriter->WriteObjectStart();
+			JsonWriter->WriteValue(TEXT("PoseCount"), RecordNum - 1);
+			JsonWriter->WriteArrayStart(TEXT("Trajectory"));
+			for (FTrajectory& traj : RecordedTrajectories) {
+				JsonWriter->WriteObjectStart();
+				JsonWriter->WriteArrayStart(TEXT("TrajectoryPoints"));
+				for (FTrajectoryPoint& trajPoint : traj.TrajectoryPoints) {
+					JsonWriter->WriteObjectStart();
+
+					JsonWriter->WriteObjectStart(TEXT("Position"));
+					JsonWriter->WriteValue(TEXT("X"), trajPoint.Position.X);
+					JsonWriter->WriteValue(TEXT("Y"), trajPoint.Position.Y);
+					JsonWriter->WriteValue(TEXT("Z"), trajPoint.Position.Z);
+					JsonWriter->WriteObjectEnd();
+
+					JsonWriter->WriteObjectStart(TEXT("Rotation"));
+					JsonWriter->WriteValue(TEXT("RotationZ"), trajPoint.RotationZ);
+					JsonWriter->WriteObjectEnd();
+
+					JsonWriter->WriteObjectEnd();
+				}
+				JsonWriter->WriteArrayEnd();
+				JsonWriter->WriteObjectEnd();
+			}
+			JsonWriter->WriteArrayEnd();
+			JsonWriter->WriteObjectEnd();
+			JsonWriter->Close();
+			FFileHelper::SaveStringToFile(JsonStr, *FilePath);
+
+			GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, TEXT("Recored Finished!"));
+
+			TimeSinceFirstRecord = 0.0f;
+			bShouldRecord = false;
+		}
 	}
 }
 

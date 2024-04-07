@@ -1316,7 +1316,7 @@ void UMotionDataAsset::PreProcessAnim(const int32 SourceAnimIndex, const bool bM
 			UTag_BakeTrajectory* TagBakeTraj = Cast<UTag_BakeTrajectory>(TagSection);
 			if (TagBakeTraj) {
 				FString JsonStr = "";
-				FString FilePath = FPaths::ProjectPluginsDir() + TEXT("JsonData/AnimationTrajectory.json");
+				FString FilePath = FPaths::ProjectPluginsDir() + TEXT("JsonData/") + TagBakeTraj->FileName + TEXT(".json");
 				TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&JsonStr);
 				JsonWriter->WriteObjectStart();
 				JsonWriter->WriteValue(TEXT("PoseCount"), TagEndPoseId - TagStartPoseId);

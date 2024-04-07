@@ -33,6 +33,16 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Behaviour")
 	ETrajectoryMoveMode TrajectoryBehaviour;
+
+	// recording predict trajectory
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Recording")
+	float TotalRecordTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Recording")
+	bool bShouldRecord;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Recording")
+	int RecordNum;
 	
 private:
 	TArray<FVector> NewTrajPosition;
@@ -40,6 +50,11 @@ private:
 
 	float MoveResponse_Remapped;
 	float TurnResponse_Remapped;
+
+	// recording predict trajectory
+	float TimeSinceLastPredictRecord;
+	float TimeSinceFirstRecord;
+	TArray<FTrajectory> RecordedTrajectories;
 
 public:
 	UTrajectoryGenerator();
