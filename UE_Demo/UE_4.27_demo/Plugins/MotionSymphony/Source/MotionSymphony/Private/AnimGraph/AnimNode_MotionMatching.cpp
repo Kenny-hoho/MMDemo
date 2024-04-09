@@ -65,7 +65,10 @@ FAnimNode_MotionMatching::FAnimNode_MotionMatching() :
 	DominantBlendChannel(0),
 	bValidToEvaluate(false),
 	bInitialized(false),
-	bTriggerTransition(false)
+	bTriggerTransition(false),
+	bShouldRecord(false),
+	TimeSinceFirstRecord(0.0f),
+	TotalRecordTime(2.0f)
 {
 	DesiredTrajectory.Clear();
 	BlendChannels.Empty(12);
@@ -740,6 +743,51 @@ void FAnimNode_MotionMatching::SchedulePoseSearch(float DeltaTime, const FAnimat
 	{
 		case EPoseMatchMethod::Optimized: { LowestPoseId = GetLowestCostPoseId(NextPose); } break;
 		case EPoseMatchMethod::Linear: { LowestPoseId = GetLowestCostPoseId_Linear(NextPose); } break;
+	}
+
+	/*-----------------------------xc-RecordTrajectory------------------------*/
+	if (bShouldRecord) {
+		// GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Blue, TEXT("Recored From MMNode Started!"));
+		RecordedTrajectories.Add(DesiredTrajectory);
+	}
+	else if(RecordedTrajectories.Num()>3){
+		// Save to Json
+		FString JsonStr = "";
+		FString FilePath = FPaths::ProjectPluginsDir() + TEXT("JsonData/PredictTrajectoryFromMMNode.json");
+		TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&JsonStr);
+		JsonWriter->WriteObjectStart();
+		JsonWriter->WriteArrayStart(TEXT("Trajectory"));
+		int trajNum = 0;
+		for (FTrajectory& traj : RecordedTrajectories) {
+			trajNum++;
+			JsonWriter->WriteObjectStart();
+			JsonWriter->WriteArrayStart(TEXT("TrajectoryPoints"));
+			for (FTrajectoryPoint& trajPoint : traj.TrajectoryPoints) {
+				JsonWriter->WriteObjectStart();
+
+				JsonWriter->WriteObjectStart(TEXT("Position"));
+				JsonWriter->WriteValue(TEXT("X"), trajPoint.Position.X);
+				JsonWriter->WriteValue(TEXT("Y"), trajPoint.Position.Y);
+				JsonWriter->WriteValue(TEXT("Z"), trajPoint.Position.Z);
+				JsonWriter->WriteObjectEnd();
+
+				JsonWriter->WriteObjectStart(TEXT("Rotation"));
+				JsonWriter->WriteValue(TEXT("RotationZ"), trajPoint.RotationZ);
+				JsonWriter->WriteObjectEnd();
+
+				JsonWriter->WriteObjectEnd();
+			}
+			JsonWriter->WriteArrayEnd();
+			JsonWriter->WriteObjectEnd();
+		}
+		JsonWriter->WriteArrayEnd();
+		JsonWriter->WriteValue(TEXT("PoseCount"), trajNum);
+		JsonWriter->WriteObjectEnd();
+		JsonWriter->Close();
+		FFileHelper::SaveStringToFile(JsonStr, *FilePath);
+
+		GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Blue, TEXT("Recored From MMNode Finished!"));
+		RecordedTrajectories.Empty(trajNum);
 	}
 
 #if ENABLE_ANIM_DEBUG && ENABLE_DRAW_DEBUG

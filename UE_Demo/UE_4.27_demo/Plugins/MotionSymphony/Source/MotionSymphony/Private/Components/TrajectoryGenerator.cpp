@@ -101,7 +101,7 @@ void UTrajectoryGenerator::UpdatePrediction(float DeltaTime)
 		if (TimeSinceFirstRecord > TotalRecordTime) {
 			// Save to Json
 			FString JsonStr = "";
-			FString FilePath = FPaths::ProjectPluginsDir() + TEXT("JsonData/PredictTrajectory.json");
+			FString FilePath = FPaths::ProjectPluginsDir() + TEXT("JsonData/PredictTrajectoryFromComponent.json");
 			TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&JsonStr);
 			JsonWriter->WriteObjectStart();
 			JsonWriter->WriteValue(TEXT("PoseCount"), RecordNum - 1);
@@ -132,7 +132,7 @@ void UTrajectoryGenerator::UpdatePrediction(float DeltaTime)
 			JsonWriter->Close();
 			FFileHelper::SaveStringToFile(JsonStr, *FilePath);
 
-			GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, TEXT("Recored Finished!"));
+			GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red, TEXT("Recored From Component Finished!"));
 
 			TimeSinceFirstRecord = 0.0f;
 			bShouldRecord = false;

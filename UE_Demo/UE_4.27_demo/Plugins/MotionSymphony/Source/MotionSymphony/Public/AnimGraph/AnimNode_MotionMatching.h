@@ -35,6 +35,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (PinShownByDefault))
 	AMotionMatchDebugInfo* CustomDebugData;
 
+	// recording predict trajectory
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Recording")
+	float TotalRecordTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Recording", meta = (PinShownByDefault))
+	bool bShouldRecord;
+
 	/** The desired trajectory of the character. This is the primary input and must be generated via a 'Trajectory Generator' 
 	component on the character. Past trajectory is recorded from historical character positions and future trajectory is 
 	predicted using a movement model over several iterations. */
@@ -182,7 +189,9 @@ private:
 
 	//Debug
 	TArray<int32> HistoricalPosesSearchCounts;
-	FAnimInstanceProxy* AnimInstanceProxy; //For Debug drawingR
+	FAnimInstanceProxy* AnimInstanceProxy; //For Debug drawing
+	float TimeSinceFirstRecord;
+	TArray<FTrajectory> RecordedTrajectories;
 
 	FAnimMirroringData MirroringData;
 

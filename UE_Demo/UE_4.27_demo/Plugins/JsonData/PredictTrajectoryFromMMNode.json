@@ -1,0 +1,1029 @@
+{
+	"Trajectory": [
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 247.259,
+						"Y": -38.7861,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 119.864,
+						"Y": -27.4619,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -105.28,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -225.265,
+						"Y": 1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -365.264,
+						"Y": 3.05176e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 247.62,
+						"Y": -37.4816,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 123.457,
+						"Y": -26.1148,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -106.205,
+						"Y": 7.62939e-06,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -226.194,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -366.193,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 245.383,
+						"Y": -38.3402,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 129.16,
+						"Y": -13.1281,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -84.8009,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -148.784,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -187.74,
+						"Y": 1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 244.62,
+						"Y": -37.4987,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 128.542,
+						"Y": -9.51459,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -55.2058,
+						"Y": 3.8147e-06,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -56.1561,
+						"Y": 3.8147e-06,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -4.26776,
+						"Y": 4.76837e-07,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 238.578,
+						"Y": -33.6332,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 119.819,
+						"Y": -7.4611,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -30.164,
+						"Y": 1.90735e-06,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 10.6946,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 107.737,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 225.732,
+						"Y": -19.5093,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 100.363,
+						"Y": -4.86893,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -10.5883,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 56.0054,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 173.979,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 204.744,
+						"Y": -10.0551,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 79.7587,
+						"Y": -1.00043,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 6.89427,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 91.6214,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 220.755,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 178.272,
+						"Y": -13.2255,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 60.2491,
+						"Y": -5.79773,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 21.1672,
+						"Y": -1.90735e-06,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 117.514,
+						"Y": -7.62939e-06,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 252.023,
+						"Y": -1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 144.587,
+						"Y": -10.7769,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 44.4442,
+						"Y": -5.66532,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 32.999,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 136.949,
+						"Y": -1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 274.124,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": 21.9657,
+						"Y": -1.56912,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -22.5207,
+						"Y": 4.29907,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 59.1414,
+						"Y": -3.8147e-06,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 174.044,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 313.653,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": -12.74,
+						"Y": -1.30606,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -37.2259,
+						"Y": 0.959229,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 65.5422,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 182.046,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 321.843,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": -46.9147,
+						"Y": 1.14194,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -48.8715,
+						"Y": -1.384,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 71.0489,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 188.639,
+						"Y": -1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 328.533,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": -106.968,
+						"Y": -2.67883,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -72.3826,
+						"Y": -3.96484,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 79.9585,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 198.798,
+						"Y": -1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 338.768,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": -123.575,
+						"Y": -5.30535,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -77.4398,
+						"Y": -4.12802,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 83.6361,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 202.831,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 342.815,
+						"Y": -3.05176e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": -144.013,
+						"Y": -3.55383,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -84.41,
+						"Y": -0.427757,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 86.8357,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 206.273,
+						"Y": -1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 346.264,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		},
+		{
+			"TrajectoryPoints": [
+				{
+					"Position":
+					{
+						"X": -162.568,
+						"Y": -0.871338,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": -92.7009,
+						"Y": 2.90501,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 89.7393,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 209.349,
+						"Y": -1.52588e-05,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				},
+				{
+					"Position":
+					{
+						"X": 349.344,
+						"Y": 0,
+						"Z": 0
+					},
+					"Rotation":
+					{
+						"RotationZ": 0
+					}
+				}
+			]
+		}
+	],
+	"PoseCount": 16
+}
