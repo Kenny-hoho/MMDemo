@@ -707,8 +707,10 @@ int32 FAnimNode_MSMotionMatching::GetLowestCostPoseId_Brute()
 	int32 MotionTagEndPoseIndex;
 	CurrentMotionData->GetMotionTagStartAndEndPoseIndex(RequiredMotionTags, MotionTagStartPoseIndex, MotionTagEndPoseIndex);
 	/*------------XC: Get Searchable Poses Count-----------*/
-	DebugInfo->TotalPoses = MotionTagEndPoseIndex - MotionTagStartPoseIndex;
-	DebugInfo->SearchCount = DebugInfo->TotalPoses;
+	if (DebugInfo) {
+		DebugInfo->TotalPoses = MotionTagEndPoseIndex - MotionTagStartPoseIndex;
+		DebugInfo->SearchCount = DebugInfo->TotalPoses;
+	}
 
 	for (int32 PoseIndex = MotionTagStartPoseIndex; PoseIndex < MotionTagEndPoseIndex; ++PoseIndex) {
 		float Cost = 0.0f;
@@ -761,8 +763,10 @@ int32 FAnimNode_MSMotionMatching::GetLowestCostPoseId_Brute()
 			LowestPoseId_SM = PoseIndex;
 
 			/*-----------XC:Get Top 5 Lowest Cost PoseID-------------*/
-			UpdateLowestPoses(CurrentMotionData, LowestPoseId_SM, PoseFavour, Cost, FeatureCostMap, LowestPoses);
-			DebugInfo->LowestCostCandidates = LowestPoses;
+			if (DebugInfo) {
+				UpdateLowestPoses(CurrentMotionData, LowestPoseId_SM, PoseFavour, Cost, FeatureCostMap, LowestPoses);
+				DebugInfo->LowestCostCandidates = LowestPoses;
+			}
 		}
 	}
 
@@ -907,8 +911,10 @@ int32 FAnimNode_MSMotionMatching::GetLowestCostPoseId_Standard()
 					const int32 StartPoseIndex = FMath::Max(InnerAABBIndex * 16, MotionTagStartPoseIndex);
 					const int32 EndPoseIndex = FMath::Min((InnerAABBIndex * 16) + 16, MotionTagEndPoseIndex);
 					/*------------XC: Get Searchable Poses Count-----------*/
-					DebugInfo->TotalPoses = MotionTagEndPoseIndex - MotionTagStartPoseIndex;
-					DebugInfo->SearchCount = EndPoseIndex- StartPoseIndex;
+					if (DebugInfo) {
+						DebugInfo->TotalPoses = MotionTagEndPoseIndex - MotionTagStartPoseIndex;
+						DebugInfo->SearchCount = EndPoseIndex - StartPoseIndex;
+					}
 
 					for(int32 PoseIndex = StartPoseIndex; PoseIndex < EndPoseIndex; ++PoseIndex)
 					{
@@ -966,8 +972,10 @@ int32 FAnimNode_MSMotionMatching::GetLowestCostPoseId_Standard()
 							LowestPoseId_SM = PoseIndex;
 
 							/*-----------XC:Get Top 5 Lowest Cost PoseID-------------*/
-							UpdateLowestPoses(CurrentMotionData, LowestPoseId_SM, PoseFavour, Cost, FeatureCostMap, LowestPoses);
-							DebugInfo->LowestCostCandidates = LowestPoses;
+							if (DebugInfo) {
+								UpdateLowestPoses(CurrentMotionData, LowestPoseId_SM, PoseFavour, Cost, FeatureCostMap, LowestPoses);
+								DebugInfo->LowestCostCandidates = LowestPoses;
+							}
 						}
 					}
 				}
@@ -1260,8 +1268,10 @@ int32 FAnimNode_MSMotionMatching::GetLowestCostNextNaturalId(int32 LowestPoseId_
 			LowestPoseId_LM = PoseIndex;
 
 			/*-----------XC:Get Top 5 Lowest Cost PoseID-------------*/
-			UpdateLowestPoses(CurrentMotionData, LowestPoseId_LM, LookupPoseArray[MatrixStartIndex] * FinalNextNaturalFavour, Cost, FeatureCostMap, LowestPoses);
-			DebugInfo->LowestCostCandidates = LowestPoses;
+			if (DebugInfo) {
+				UpdateLowestPoses(CurrentMotionData, LowestPoseId_LM, LookupPoseArray[MatrixStartIndex] * FinalNextNaturalFavour, Cost, FeatureCostMap, LowestPoses);
+				DebugInfo->LowestCostCandidates = LowestPoses;
+			}
 		}
 	}
 
@@ -1821,45 +1831,48 @@ void FAnimNode_MSMotionMatching::UpdateAssetPlayer(const FAnimationUpdateContext
 		}
 	}
 	/*-------------------------------XC:Get Current Animation info-------------------------------*/
-	DebugInfo->PoseId = CurrentChosenPoseId;
-	DebugInfo->AnimId = MMAnimState.AnimId;
-	DebugInfo->AnimTime = MMAnimState.AnimTime;
-	DebugInfo->AnimType = MMAnimState.AnimType;
-	DebugInfo->bMirrored = MMAnimState.bMirrored;
-	DebugInfo->Favour = CurrentMotionData->GetPoseFavour(CurrentChosenPoseId);
-	DebugInfo->AnimName = CurrentMotionData->GetSourceSequenceAtIndex(MMAnimState.AnimId)->AnimAsset->GetName();
+	if (DebugInfo != nullptr) {
+		DebugInfo->PoseId = CurrentChosenPoseId;
+		DebugInfo->AnimId = MMAnimState.AnimId;
+		DebugInfo->AnimTime = MMAnimState.AnimTime;
+		DebugInfo->AnimType = MMAnimState.AnimType;
+		DebugInfo->bMirrored = MMAnimState.bMirrored;
+		DebugInfo->Favour = CurrentMotionData->GetPoseFavour(CurrentChosenPoseId);
+		DebugInfo->AnimName = CurrentMotionData->GetSourceSequenceAtIndex(MMAnimState.AnimId)->AnimAsset->GetName();
 
+		//TODO: More Traces and custom trace for Motion matching node
 
-	//TODO: More Traces and custom trace for Motion matching node
-
-	//TRACE_ANIM_SEQUENCE_PLAYER()
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("TotalPosesCount"), DebugInfo->TotalPoses);
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("SearchCount"), DebugInfo->SearchCount);
-	float Reduction = float(DebugInfo->TotalPoses - DebugInfo->SearchCount) / float(DebugInfo->TotalPoses);
-	FString Reduction_Str = FString::SanitizeFloat(Reduction);
-	UE_LOG(LogTemp, Warning, TEXT("Reduction: %f"), Reduction);
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("Reduction"), FName(*Reduction_Str));
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("Name"), CurrentMotionData != nullptr ? CurrentMotionData->GetFName() : NAME_None);
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("Motion Data"), CurrentMotionData);
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("AnimAsset Name"), FName(CurrentMotionData->GetSourceSequenceAtIndex(MMAnimState.AnimId)->AnimAsset->GetName()));
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("Anim Id"), DebugInfo->AnimId);
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("Anim Time"), DebugInfo->AnimTime);
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("Current Pose Id"), CurrentChosenPoseId);
-	TRACE_ANIM_NODE_VALUE(Context, TEXT("Favour"), DebugInfo->Favour);
+		//TRACE_ANIM_SEQUENCE_PLAYER()
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("TotalPosesCount"), DebugInfo->TotalPoses);
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("SearchCount"), DebugInfo->SearchCount);
+		float Reduction = float(DebugInfo->TotalPoses - DebugInfo->SearchCount) / float(DebugInfo->TotalPoses);
+		FString Reduction_Str = FString::SanitizeFloat(Reduction);
+		UE_LOG(LogTemp, Warning, TEXT("Reduction: %f"), Reduction);
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("Reduction"), FName(*Reduction_Str));
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("Name"), CurrentMotionData != nullptr ? CurrentMotionData->GetFName() : NAME_None);
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("Motion Data"), CurrentMotionData);
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("AnimAsset Name"), FName(CurrentMotionData->GetSourceSequenceAtIndex(MMAnimState.AnimId)->AnimAsset->GetName()));
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("Anim Id"), DebugInfo->AnimId);
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("Anim Time"), DebugInfo->AnimTime);
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("Current Pose Id"), CurrentChosenPoseId);
+		TRACE_ANIM_NODE_VALUE(Context, TEXT("Favour"), DebugInfo->Favour);
+	}
 	if (CurrentMotionData->Poses[CurrentChosenPoseId].SearchFlag == EPoseSearchFlag::DoNotUse) {
 		TRACE_ANIM_NODE_VALUE(Context, TEXT("SearchFlag"), FName("DoNotUse"));
 	}
 	else {
 		TRACE_ANIM_NODE_VALUE(Context, TEXT("SearchFlag"), FName("Searchable"));
 	}
-	for (int32 i = 0; i < DebugInfo->LowestCostCandidates.Num();i++) {
-		FString CandidatePoseInfo = TEXT("AnimId: ") + FString::FromInt(DebugInfo->LowestCostCandidates[i].AnimId) + TEXT(", PoseId: ") + FString::FromInt(DebugInfo->LowestCostCandidates[i].PoseId);
-		CandidatePoseInfo += TEXT(", Total Cost: ") + FString::SanitizeFloat(DebugInfo->LowestCostCandidates[i].TotalCost);
-		for (auto MapItem : DebugInfo->LowestCostCandidates[i].FeatureCostMap) {
-			FString Temp = TEXT(", ") + MapItem.Key.ToString() + TEXT(": ") + FString::SanitizeFloat(MapItem.Value);
-			CandidatePoseInfo += Temp;
+	if (DebugInfo) {
+		for (int32 i = 0; i < DebugInfo->LowestCostCandidates.Num(); i++) {
+			FString CandidatePoseInfo = TEXT("AnimId: ") + FString::FromInt(DebugInfo->LowestCostCandidates[i].AnimId) + TEXT(", PoseId: ") + FString::FromInt(DebugInfo->LowestCostCandidates[i].PoseId);
+			CandidatePoseInfo += TEXT(", Total Cost: ") + FString::SanitizeFloat(DebugInfo->LowestCostCandidates[i].TotalCost);
+			for (auto MapItem : DebugInfo->LowestCostCandidates[i].FeatureCostMap) {
+				FString Temp = TEXT(", ") + MapItem.Key.ToString() + TEXT(": ") + FString::SanitizeFloat(MapItem.Value);
+				CandidatePoseInfo += Temp;
+			}
+			TRACE_ANIM_NODE_VALUE(Context, TEXT("Candidate Pose Info"), FName(*CandidatePoseInfo));
 		}
-		TRACE_ANIM_NODE_VALUE(Context, TEXT("Candidate Pose Info"), FName(*CandidatePoseInfo));
 	}
 }
 

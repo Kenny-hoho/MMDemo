@@ -6,11 +6,13 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Utility/MotionMatchingUtils.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Components/SplineComponent.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "AIController.h"
 #include "Quaternion.h"
 #include "InteractionGPComponent.h"
 #include "InteractActor.h"
+#include "PathFollowMatching.h"
 #include "WorldPartition/RuntimeSpatialHash/RuntimeSpatialHashGridHelper.h"
 
 #define EPSILON 0.0001f
@@ -55,6 +57,9 @@ void UTrajectoryGenerator::UpdatePrediction(float DeltaTime)
 	{
 		PathFollowPrediction(DeltaTime, TrajectoryIterations, DesiredLinearDisplacement);
 	}
+	else if (TrajectoryControlMode == ETrajectoryControlMode::PathFollow) {
+		SplineFollowPrediction(DeltaTime);
+	}
 	else
 	{
 		switch(TrajectoryModel)
@@ -68,9 +73,48 @@ void UTrajectoryGenerator::UpdatePrediction(float DeltaTime)
 				CapsulePrediction(DeltaTime);
 			} break;
 		}
-	}
 
-	Super::UpdatePrediction(DeltaTime); //Need this for debug drawing
+		Super::UpdatePrediction(DeltaTime); //Need this for debug drawing
+	}
+}
+
+/*
+* XC: 用于跟随Spline
+*/
+void UTrajectoryGenerator::SplineFollowPrediction(const float DeltaTime) {
+	const FVector RefLocation = OwningActor->GetActorLocation();
+	if (APawn* Pawn = Cast<APawn>(OwningActor))
+	{
+		if (UPathFollowMatching* PathFollowComp = OwningActor->GetComponentByClass<UPathFollowMatching>()) {
+			if (USplineComponent* SplineComp = PathFollowComp->SplineComp) {
+				// 计算初始位置，在Spline上找最接近当前actor位置的位置
+				float StartDistance = SplineComp->GetDistanceAlongSplineAtLocation(RefLocation, ESplineCoordinateSpace::World);
+				float StartTime = SplineComp->GetTimeAtDistanceAlongSpline(StartDistance);
+				FVector StartLocation = SplineComp->GetLocationAtDistanceAlongSpline(StartDistance, ESplineCoordinateSpace::World);
+				
+				float SplineTotalTime = SplineComp->GetTimeAtDistanceAlongSpline(SplineComp->GetSplineLength());
+
+				TrajPositions[0] = FVector::ZeroVector;
+				int32 TrajectoryPointIndex = 1;
+				for (int iteration = 1; iteration < TrajTimes.Num(); iteration++) {
+					if (TrajTimes[iteration] > 0.0f) {
+						float CurTime = StartTime + TrajTimes[iteration];
+						if (CurTime > 0 && CurTime < SplineTotalTime) {
+							TrajPositions[TrajectoryPointIndex] = SplineComp->GetLocationAtTime(CurTime, ESplineCoordinateSpace::World) - StartLocation;
+							TrajRotations[TrajectoryPointIndex] = TrajPositions[TrajectoryPointIndex].Rotation().Yaw;
+							++TrajectoryPointIndex;
+						}
+						else if (CurTime >= SplineTotalTime) { // todo 没有减速
+							TrajPositions[TrajectoryPointIndex] = SplineComp->GetLocationAtTime(SplineTotalTime, ESplineCoordinateSpace::World) - StartLocation;
+							TrajRotations[TrajectoryPointIndex] = TrajPositions[TrajectoryPointIndex].Rotation().Yaw;
+							++TrajectoryPointIndex;
+						}
+					}
+				}
+				TrajRotations[0] = OwningActor->GetActorRotation().Yaw;
+			}
+		}
+	}
 }
 
 void UTrajectoryGenerator::PathFollowPrediction(const float DeltaTime, const int32 Iterations, const FVector& DesiredLinearDisplacement)

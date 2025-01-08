@@ -69,6 +69,7 @@ public:
 protected:
 	virtual void UpdatePrediction(float DeltaTime) override;
 	virtual void PathFollowPrediction(const float DeltaTime, const int32 Iterations, const FVector& DesiredLinearDisplacement);
+	virtual void SplineFollowPrediction(const float DeltaTime);
 	virtual void InputPrediction(const float DeltaTime, const FVector& DesiredLinearDisplacement);
 	virtual void CapsulePrediction(const float DeltaTime);
 	virtual void Setup(TArray<float>& TrajTimes) override;

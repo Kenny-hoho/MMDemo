@@ -89,5 +89,6 @@ enum class ETrajectoryControlMode : uint8
 {
 	PlayerControlled,
 	AIControlled,
-	Interaction
+	Interaction,
+	PathFollow
 };
