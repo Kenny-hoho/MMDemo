@@ -88,27 +88,39 @@ void UTrajectoryGenerator::SplineFollowPrediction(const float DeltaTime) {
 		if (UPathFollowMatching* PathFollowComp = OwningActor->GetComponentByClass<UPathFollowMatching>()) {
 			if (USplineComponent* SplineComp = PathFollowComp->SplineComp) {
 				// 计算初始位置，在Spline上找最接近当前actor位置的位置
-				float StartDistance = SplineComp->GetDistanceAlongSplineAtLocation(RefLocation, ESplineCoordinateSpace::World);
-				//float StartTime = SplineComp->GetTimeAtDistanceAlongSpline(StartDistance);
-				FVector StartLocation = SplineComp->GetLocationAtDistanceAlongSpline(StartDistance, ESplineCoordinateSpace::World);
+				float StartDistance;
+				if (CachedDistance == -1) {
+					CachedLocation = RefLocation;
+					CachedDistance = SplineComp->GetDistanceAlongSplineAtLocation(RefLocation, ESplineCoordinateSpace::World);
+					StartDistance = CachedDistance;
+				}
+				else {
+					float CurrentLinerDisplacement = (RefLocation - CachedLocation).Length();
+					//StartDistance = CachedDistance + CurrentLinerDisplacement;
+					StartDistance = DeltaTime * MaxSpeed * 0.75 + CachedDistance;
+					CachedDistance = StartDistance;
+					CachedLocation = RefLocation;
+				}
 				
-				// float SplineTotalTime = SplineComp->GetTimeAtDistanceAlongSpline(SplineComp->GetSplineLength());
+				DrawDebugSphere(GetWorld(), SplineComp->GetLocationAtDistanceAlongSpline(StartDistance, ESplineCoordinateSpace::World), 5.0f, 32, FColor::Blue, false, -1.0f);
+
 				float SplineLength = SplineComp->GetSplineLength();
+				if (SplineComp->IsClosedLoop() && StartDistance > SplineLength) {
+					StartDistance = int(StartDistance) % int(SplineLength);
+				}
 
 				float PathFollowTimeHorizon = TrajTimes.Last();
 				TrajPositions[0] = FVector::ZeroVector;
 				float DistanceStep = PathFollowTimeHorizon / SampleRate * MaxSpeed;
 				float CurDistance = StartDistance;
-				for (int TrajectoryPointIndex = 0; TrajectoryPointIndex < TrajPositions.Num(); TrajectoryPointIndex++) {
+				for (int TrajectoryPointIndex = 1; TrajectoryPointIndex < TrajPositions.Num(); TrajectoryPointIndex++) {
 					CurDistance = CurDistance + DistanceStep;
-					if (CurDistance > 0 && CurDistance < SplineLength) {
-						TrajPositions[TrajectoryPointIndex] = SplineComp->GetLocationAtDistanceAlongSpline(CurDistance, ESplineCoordinateSpace::World) - StartLocation;
-						TrajRotations[TrajectoryPointIndex] = TrajPositions[TrajectoryPointIndex].Rotation().Yaw;
+					if (SplineComp->IsClosedLoop() && CurDistance > SplineLength) {
+						CurDistance = int(CurDistance) % int(SplineLength);
 					}
-					else if (CurDistance >= SplineLength) { // todo 没有减速
-						TrajPositions[TrajectoryPointIndex] = SplineComp->GetLocationAtDistanceAlongSpline(SplineLength, ESplineCoordinateSpace::World) - StartLocation;
-						TrajRotations[TrajectoryPointIndex] = TrajPositions[TrajectoryPointIndex].Rotation().Yaw;
-					}
+					// todo 锐角动态调整
+					TrajPositions[TrajectoryPointIndex] = SplineComp->GetLocationAtDistanceAlongSpline(CurDistance, ESplineCoordinateSpace::World) - RefLocation;
+					TrajRotations[TrajectoryPointIndex] = SplineComp->GetRotationAtDistanceAlongSpline(CurDistance, ESplineCoordinateSpace::Local).Yaw;
 				}
 				TrajRotations[0] = OwningActor->GetActorRotation().Yaw;
 			}

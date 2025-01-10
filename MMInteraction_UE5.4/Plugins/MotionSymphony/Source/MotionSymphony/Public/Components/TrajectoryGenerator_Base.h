@@ -71,6 +71,10 @@ protected:
 	TArray<float> TrajRotations;
 	TArray<float> TrajTimes;
 
+	//PathFollow
+	float CachedDistance = -1;
+	FVector CachedLocation = FVector::ZeroVector;
+
 	//Debug
 	float TimeSinceLastDebugInputChange;
 	float TimeToChangeDebugInput;
