@@ -30,7 +30,8 @@ UTrajectoryGenerator::UTrajectoryGenerator()
       MoveResponse_Remapped(15.0f),
 	  TurnResponse_Remapped(15.0f),
 	  StopDistance(40.0f),
-	  SlowDownDistance(70.0f)
+	  SlowDownDistance(70.0f),
+	  SpeedOffset(0.75)
 {
 }
 
@@ -97,7 +98,7 @@ void UTrajectoryGenerator::SplineFollowPrediction(const float DeltaTime) {
 				else {
 					float CurrentLinerDisplacement = (RefLocation - CachedLocation).Length();
 					//StartDistance = CachedDistance + CurrentLinerDisplacement;
-					StartDistance = DeltaTime * MaxSpeed * 0.75 + CachedDistance;
+					StartDistance = DeltaTime * MaxSpeed * SpeedOffset + CachedDistance;
 					CachedDistance = StartDistance;
 					CachedLocation = RefLocation;
 				}

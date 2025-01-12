@@ -50,6 +50,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
 	float SlowDownDistance;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PathFollow")
+	float SpeedOffset;
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Behaviour")
 	bool bUsePathAsTrajectoryForAI = false;
